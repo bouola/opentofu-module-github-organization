@@ -14,7 +14,7 @@ permissions:
 jobs:
   release-dry-run:
     name: Release (Dry Run)
-    if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master'
+    if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps: &release_steps
       - name: Checkout
@@ -28,13 +28,13 @@ jobs:
           node-version: "lts/*"
 
       - name: Install dependencies
-        run: npm install -g semantic-release @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+        run: npm install -g semantic-release @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/git
 
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ "${{ github.ref }}" == "refs/heads/main" ] || [ "${{ github.ref }}" == "refs/heads/master" ]; then
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             npx semantic-release
           else
             npx semantic-release --dry-run
@@ -42,6 +42,6 @@ jobs:
 
   release:
     name: Release
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps: *release_steps
