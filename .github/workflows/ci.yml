@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint:
+    name: Lint & Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Mise
+        uses: jdx/mise-action@v2
+        with:
+          experimental: true
+          # Cache settings are handled by the action
+
+      - name: OpenTofu Format Check
+        run: tofu fmt -check -recursive
+
+      - name: OpenTofu Validate
+        run: tofu init -backend=false && tofu validate
+
+      - name: TFLint
+        run: tflint --recursive
+
+      - name: Trivy Scan
+        run: trivy config . --severity HIGH,CRITICAL
+
+      - name: Terraform Docs Check
+        run: |
+          terraform-docs .
+          if [ -n "$(git status --porcelain README.md)" ]; then
+            echo "README.md is out of date. Please run terraform-docs and commit the changes."
+            exit 1
+          fi
