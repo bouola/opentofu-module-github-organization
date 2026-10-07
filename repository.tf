@@ -37,7 +37,7 @@ resource "github_repository" "repositories" {
   auto_init            = true
   gitignore_template   = each.value.git_ignore_template
   archived             = each.value.archived
-  vulnerability_alerts = each.value.archived ? each.value.vulnerability_alerts : false
+  vulnerability_alerts = each.value.archived ? false : each.value.vulnerability_alerts # GitHub rejects changes on archived repos
 
   topics = concat(each.value.tags, local.extra_tags)
   dynamic "pages" {
