@@ -29,15 +29,14 @@ resource "github_repository" "repositories" {
   description = each.value.description
   visibility  = each.value.visibility
 
-  has_discussions      = each.value.has_discussions
-  has_downloads        = lookup(each.value, "has_downloads", null)
-  has_projects         = each.value.has_projects
-  has_wiki             = each.value.has_wiki
-  has_issues           = each.value.has_issues
-  auto_init            = true
-  gitignore_template   = each.value.git_ignore_template
-  archived             = each.value.archived
-  vulnerability_alerts = each.value.archived ? false : each.value.vulnerability_alerts # GitHub rejects changes on archived repos
+  has_discussions    = each.value.has_discussions
+  has_downloads      = lookup(each.value, "has_downloads", null)
+  has_projects       = each.value.has_projects
+  has_wiki           = each.value.has_wiki
+  has_issues         = each.value.has_issues
+  auto_init          = true
+  gitignore_template = each.value.git_ignore_template
+  archived           = each.value.archived
 
   topics = concat(each.value.tags, local.extra_tags)
   dynamic "pages" {
@@ -55,6 +54,13 @@ resource "github_repository" "repositories" {
       has_wiki
     ]
   }
+}
+
+# Archived repositories are left out: GitHub rejects any change on them.
+resource "github_repository_vulnerability_alerts" "repositories" {
+  for_each   = { for name, repository in local.repositories : name => repository if !repository.archived }
+  repository = github_repository.repositories[each.key].name
+  enabled    = each.value.vulnerability_alerts
 }
 
 resource "github_branch_default" "default" {
