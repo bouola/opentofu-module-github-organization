@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/bouola/opentofu-module-github-organization/compare/v1.0.0...v1.0.1) (2026-10-07)
+
+
+### Bug Fixes
+
+* update behavior of `vulnerability_alerts` for archived repositories ([19b55c8](https://github.com/bouola/opentofu-module-github-organization/commit/19b55c849b64144ee88435177399307b3fa22a20))
+
 # 1.0.0 (2026-02-22)
 
 
