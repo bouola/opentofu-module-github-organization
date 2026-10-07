@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/bouola/opentofu-module-github-organization/compare/v1.0.1...v1.1.0) (2026-10-07)
+
+
+### Features
+
+* add support for managing `github_repository_vulnerability_alerts` and refine handling for archived repositories ([4af6856](https://github.com/bouola/opentofu-module-github-organization/commit/4af68560cdbf1211c1914cf8d3defb4f4274070a))
+
 ## [1.0.1](https://github.com/bouola/opentofu-module-github-organization/compare/v1.0.0...v1.0.1) (2026-10-07)
 
 
