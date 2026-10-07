@@ -33,7 +33,7 @@ variable "github_organization_repositories" {
     archived             = optional(bool, false)      # Archive the repository
     git_ignore_template  = optional(string, "Python") # Git ignore template
     default_branch_name  = optional(string, "main")   # Git default branch name
-    vulnerability_alerts = optional(bool, true)       # Enable Dependabot alerts
+    vulnerability_alerts = optional(bool, true)       # Enable Dependabot alerts (ignored when archived)
     collaborators = optional(list(object({            # List of collaborators with permissions
       username   = string                             # Collaborator GitHub username
       permission = optional(string, "push")           # 'pull', 'push', 'admin', 'maintain', 'triage'
